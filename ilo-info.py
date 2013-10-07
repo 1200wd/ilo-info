@@ -12,6 +12,10 @@ def get(host, user, passwd, label):
 	s = requests.Session()
 	r = s.post(url, data=post, verify=False)
 
+	if r.status_code == 403:
+		print >> sys.stderr, '[ERROR] Could not login'
+		sys.exit()
+
 	dataurl = 'https://%s/json/health_temperature' % host
 	r = s.get(dataurl, verify=False)
 	data = json.loads(r.text)
